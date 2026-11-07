@@ -1,0 +1,1 @@
+sudo docker run --name my-secure-api-database -p 5432:5432 -e POSTGRES_PASSWORD=12345678 -e POSTGRES_DB=securedatabase -e POSTGRES_USER=secureadmin -d postgres
