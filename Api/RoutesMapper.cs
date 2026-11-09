@@ -30,6 +30,13 @@ public static class RoutesMapper
 
             return Results.Ok(authService.GenerateToken(user));
         });
+
+        app.MapPost("/register", ([FromServices] AuthService authService,
+            [FromServices] DatabaseContext db,
+            [FromBody] RegisterRequest registerRequest) =>
+        {
+            
+        });
     }
 
     public static void AddGets(this WebApplication app)
