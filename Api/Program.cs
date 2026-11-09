@@ -53,28 +53,8 @@ app.MapGet("/users", ([FromServices] DatabaseContext db) => db.Users
         .ToList()
         .Select(u => new UserGetResponse(u)));
 
-app.MapPost("/login", async ([FromServices] AuthService authService, [FromServices] DatabaseContext db, [FromBody] LoginRequest loginRequest) =>
-{
-    var authenticated = await authService.AuthenticateUser(loginRequest);
-
-    if (!authenticated)
-    {
-        return Results.Unauthorized();
-    }
-
-    var user = await db.Users
-        .Include(u => u.Roles)
-        .FirstOrDefaultAsync(u => u.Email == loginRequest.Email);
-
-    if (user == null)
-    {
-        return Results.Unauthorized();
-    }
-
-    return Results.Ok(authService.GenerateToken(user));
-});
-
-app.MapGet("/autenticated/admin", () => "Você é admin").RequireAuthorization("Admin");
+app.AddGets();
+app.AddPosts();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
