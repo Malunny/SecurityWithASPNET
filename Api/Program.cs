@@ -1,4 +1,5 @@
 using System.Text;
+using Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 var connectionString = builder.Configuration["ConnectionString"];
-var jwtToken = builder.Configuration["JwtToken"] ?? throw new Exception("Não foi encontrado o JWT Token");
+var jwtToken = builder.Configuration["JwtToken"] ?? throw new Exception("Jwt Token not found");
+var passwordSaltKey = builder.Configuration["PasswordSaltKey"] ?? throw new Exception("PasswordSaltKey not found");
 
-Configuration.JwtToken = jwtToken;
+Configuration.Secrets.JwtToken = jwtToken;
+Configuration.Secrets.PasswordSaltKey = passwordSaltKey;
 
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddTransient<AuthService>();
@@ -48,11 +51,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapGet("/", () => "Hello World!");
-app.MapGet("/users", ([FromServices] DatabaseContext db) => db.Users
-    .Include(u => u.Roles)
-        .ToList()
-        .Select(u => new UserGetResponse(u)));
-
 app.AddGets();
 app.AddPosts();
 

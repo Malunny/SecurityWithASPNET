@@ -1,7 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Domain.User;
+using Domain;
+using Domain.Entities.Users;
+using Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +19,7 @@ public class AuthService(DatabaseContext db)
         
         // gerando info do token
 
-        var jwtTokenBytes = Encoding.ASCII.GetBytes(Configuration.JwtToken);
+        var jwtTokenBytes = Encoding.ASCII.GetBytes(Configuration.Secrets.JwtToken);
         var symmetricSecurityKey = new SymmetricSecurityKey(jwtTokenBytes);
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
@@ -49,14 +51,11 @@ public class AuthService(DatabaseContext db)
 
     public async Task<bool> AuthenticateUser(LoginRequest loginRequest)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Email == loginRequest.Email);
-        
+        var user = await db.Users.FirstOrDefaultAsync(u => u.Email.Address == loginRequest.Email);
+
         if (user == null)
             return false;
-
-        if (user.PasswordHash != loginRequest.Password)
-            return false;
         
-        return true;
+        return Password.Verify(user.Password.Hash,  loginRequest.Password);
     }
 }
