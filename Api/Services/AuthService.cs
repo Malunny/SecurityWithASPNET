@@ -11,13 +11,11 @@ using SecWithJWTeBearer.DataTransferObjects;
 
 namespace SecWithJWTeBearer.Services;
 
-public class AuthService(DatabaseContext db)
+public class AuthService(DatabaseContext databaseContext)
 {
     public string GenerateToken(User user)
     {
-        var handler = new JwtSecurityTokenHandler(); // responsável por gerar o token.
-        
-        // gerando info do token
+        var handler = new JwtSecurityTokenHandler(); 
 
         var jwtTokenBytes = Encoding.ASCII.GetBytes(Configuration.Secrets.JwtToken);
         var symmetricSecurityKey = new SymmetricSecurityKey(jwtTokenBytes);
@@ -51,7 +49,7 @@ public class AuthService(DatabaseContext db)
 
     public async Task<bool> AuthenticateUser(LoginRequest loginRequest)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Email.Address == loginRequest.Email);
+        var user = await databaseContext.Users.FirstOrDefaultAsync(u => u.Email.Address == loginRequest.Email);
 
         if (user == null)
             return false;

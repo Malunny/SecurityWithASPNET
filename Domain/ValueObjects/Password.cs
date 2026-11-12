@@ -12,7 +12,7 @@ public class Password : ValueObject
 
     protected Password() { }
     
-    public Password(string? password)
+    public Password(string? password = null)
     {
         if  (string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
             password = GenerateRandomPassword();
