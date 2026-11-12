@@ -4,9 +4,9 @@ namespace SecWithJWTeBearer.DataTransferObjects;
 
 public record UserGetResponse
 {
-    public string Name;
-    public string Email;
-    public string[] Roles;
+    public string Name { get; }
+    public string Email { get; }
+    public string[] Roles { get; }
 
     public UserGetResponse(User user)
     {

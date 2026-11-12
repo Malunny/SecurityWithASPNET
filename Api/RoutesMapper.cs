@@ -67,9 +67,12 @@ public static class RoutesMapper
     public static void AddGets(this WebApplication app)
     {
         app.MapGet("/authenticated/admin", () => "Você é admin").RequireAuthorization("Admin");
-        
-        app.MapGet("/users", ([FromServices] DatabaseContext db) => 
-            db.Users.Include(u => u.Roles)
-                .Select(u => new UserGetResponse(u)));
+
+        app.MapGet("/users", async ([FromServices] DatabaseContext db) =>
+        {
+            var users = await db.Users.Include(u => u.Roles).ToListAsync();
+            
+            return users.Select(user => new UserGetResponse(user));
+        });
     }
 }
