@@ -15,37 +15,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.AddConfiguration();
-
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(Configuration.ConnectionStrings.DefaultConnection));
+builder.AddDatabase();
 builder.Services.AddTransient<AuthService>();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(bearerOptions =>
-{
-    var jwtTokenBytes = Encoding.ASCII.GetBytes(Configuration.Secrets.JwtToken);
-    bearerOptions.TokenValidationParameters = new TokenValidationParameters
-    {
-        IssuerSigningKey = new SymmetricSecurityKey(jwtTokenBytes),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Logged",  policy => policy.RequireAuthenticatedUser());
-    options.AddPolicy("Pro",  policy => policy.RequireRole("Pro", "Admin"));
-    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-});
+builder.AddJwtAuthentication();
+builder.AddAuthorizationPolicies();
 
 var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/", () => "Hello World!");
 app.AddGets();
 app.AddPosts();
 
