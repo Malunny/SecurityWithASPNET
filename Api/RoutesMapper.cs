@@ -1,4 +1,4 @@
-using Domain.Entities.Users;
+using Domain.Contexts.Account.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecWithJWTeBearer.DataTransferObjects;

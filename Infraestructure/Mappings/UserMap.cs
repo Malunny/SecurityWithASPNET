@@ -1,5 +1,5 @@
-using Domain.Entities.Roles;
-using Domain.Entities.Users;
+using Domain.Contexts.Account.Entities.Roles;
+using Domain.Contexts.Account.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

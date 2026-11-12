@@ -1,6 +1,6 @@
-using System.Security.AccessControl;
+using Domain.Contexts.Shared;
 
-namespace Domain.ValueObjects;
+namespace Domain.Contexts.Account.ValueObjects;
 
 public class Verification : ValueObject
 {

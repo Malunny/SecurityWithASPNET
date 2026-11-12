@@ -1,4 +1,4 @@
-using Domain.Entities.Users;
+using Domain.Contexts.Account.Entities.Users;
 
 namespace SecWithJWTeBearer.DataTransferObjects;
 

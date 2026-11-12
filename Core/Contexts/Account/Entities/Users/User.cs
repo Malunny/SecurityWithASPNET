@@ -1,12 +1,12 @@
-using Domain.Entities.Roles;
+using Domain.Contexts.Account.Entities.Roles;
+using Domain.Contexts.Account.ValueObjects;
+using Domain.Contexts.Shared;
 using Domain.Interfaces;
-using Domain.ValueObjects;
 
-namespace Domain.Entities.Users;
+namespace Domain.Contexts.Account.Entities.Users;
 
-public class User : IToken
+public class User : Entity
 {
-    public string Token { get; set; } = Guid.NewGuid().ToString();
     public string Name { get; set; }
     public Email Email { get; private set; }
     public Password Password { get; private set; }

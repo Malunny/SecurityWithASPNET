@@ -1,7 +1,8 @@
 using System.Text.RegularExpressions;
-using Domain.Shared.Extensions;
+using Domain.Contexts.Shared;
+using Domain.Contexts.Shared.Extensions;
 
-namespace Domain.ValueObjects;
+namespace Domain.Contexts.Account.ValueObjects;
 
 public partial class Email : ValueObject
 {

@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
+using Domain.Contexts.Shared;
 
-namespace Domain.ValueObjects;
+namespace Domain.Contexts.Account.ValueObjects;
 
 public class Password : ValueObject
 {
