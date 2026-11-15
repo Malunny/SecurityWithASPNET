@@ -1,7 +1,7 @@
 using Domain.Contexts.Account.Entities.Roles;
 using Domain.Contexts.Account.Entities.Users;
+using Infraestructure.Contexts.Account.Mappings;
 using Microsoft.EntityFrameworkCore;
-using SecWithJWTeBearer.Mappings;
 
 namespace SecWithJWTeBearer;
 

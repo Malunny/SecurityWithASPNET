@@ -1,5 +1,6 @@
 using System.Text;
 using Domain;
+using Infraestructure.Contexts.Account.UseCases.Create;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ builder.AddConfiguration();
 builder.AddDatabase();
 builder.AddEmails();
 builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<Service>();
 
 builder.AddJwtAuthentication();
 builder.AddAuthorizationPolicies();

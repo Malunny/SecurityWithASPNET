@@ -3,7 +3,7 @@ using Domain.Contexts.Account.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace SecWithJWTeBearer.Mappings;
+namespace Infraestructure.Contexts.Account.Mappings;
 
 public class UserMap : IEntityTypeConfiguration<User>
 {
