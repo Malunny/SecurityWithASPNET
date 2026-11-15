@@ -1,10 +1,12 @@
+using System.Net;
 using Domain.Contexts.Account.Entities.Users;
 using Domain.Contexts.Account.UseCases.Create.Contracts;
 using Domain.Contexts.Account.ValueObjects;
+using MediatR;
 
 namespace Domain.Contexts.Account.UseCases.Create;
 
-public class Handler
+public class Handler : IRequestHandler<Request, Response>
 {
     private readonly IService _service;
     private readonly IRepository _repository;
@@ -53,6 +55,9 @@ public class Handler
 
         var userAlreadyExists = await _repository.AnyAsync(request.Email, cancellationToken);
 
+        if (userAlreadyExists)
+            return new Response("There is already a user with this email address.", (int) HttpStatusCode.Forbidden);
+        
         #endregion
 
         #region 4. Persistir dados

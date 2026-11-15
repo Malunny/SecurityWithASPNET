@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using SecWithJWTeBearer;
 using SecWithJWTeBearer.DataTransferObjects;
 using SecWithJWTeBearer.Extensions;
+using SecWithJWTeBearer.Extensions.Contexts;
 using SecWithJWTeBearer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +19,10 @@ builder.Services.AddOpenApi();
 builder.AddConfiguration();
 builder.AddDatabase();
 builder.AddEmails();
+
+builder.AddAccountContext();
+builder.AddMediator();
 builder.Services.AddTransient<AuthService>();
-builder.Services.AddTransient<Service>();
 
 builder.AddJwtAuthentication();
 builder.AddAuthorizationPolicies();
@@ -33,6 +36,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.AddGets();
+app.MapAccountEndpoints();  
 app.AddPosts();
 
 // Configure the HTTP request pipeline.

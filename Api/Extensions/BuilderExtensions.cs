@@ -57,6 +57,12 @@ public static class BuilderExtensions
         });
     }
 
+    public static void AddMediator(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddMediatR(configuration => 
+            configuration.RegisterServicesFromAssemblies(typeof(Configuration).Assembly));
+    }
+    
     public static void AddEmails(this WebApplicationBuilder builder)
     {
         builder.Services.AddMailtrapClient(options =>
