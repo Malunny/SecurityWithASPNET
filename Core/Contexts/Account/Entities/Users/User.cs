@@ -44,4 +44,11 @@ public class User : Entity
         Email = email;
         Password = new Password(password);
     }
+    
+    public User(string name, Email email, Password password)
+    {
+        Name = name;
+        Email = email;
+        Password = password;
+    }
 }
