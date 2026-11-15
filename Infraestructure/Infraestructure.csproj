@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="Mailtrap">
+        <HintPath>..\..\..\.nuget\packages\mailtrap\3.10.1\lib\netstandard2.0\Mailtrap.dll</HintPath>
+      </Reference>
+      <Reference Include="Mailtrap.Abstractions">
+        <HintPath>..\..\..\.nuget\packages\mailtrap.abstractions\3.10.1\lib\netstandard2.0\Mailtrap.Abstractions.dll</HintPath>
+      </Reference>
       <Reference Include="Microsoft.EntityFrameworkCore">
         <HintPath>..\..\..\.nuget\packages\microsoft.entityframeworkcore\10.0.14\lib\net10.0\Microsoft.EntityFrameworkCore.dll</HintPath>
       </Reference>

@@ -1,5 +1,6 @@
 using System.Text;
 using Domain;
+using Mailtrap;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +18,10 @@ public static class BuilderExtensions
             builder.Configuration["Secrets:PasswordSaltKey"] ?? throw new MissingEnvironmentVariableException("Secrets:PasswordSaltKey");
         Configuration.ConnectionStrings.DefaultConnection =
             builder.Configuration["ConnectionStrings:DefaultConnection"] ?? throw new MissingEnvironmentVariableException("ConnectionStrings:DefaultConnection");
+        Configuration.Secrets.MailtrapToken =
+            builder.Configuration["Secrets:MailtrapToken"] ?? throw new MissingEnvironmentVariableException("Secrets:MailtrapToken");
+        Configuration.EmailConfiguration.Sender =
+            builder.Configuration["EmailConfiguration:Sender"] ?? throw new MissingEnvironmentVariableException("EmailConfiguration:Sender");
     }
 
     public static void AddDatabase(this WebApplicationBuilder builder)
@@ -49,6 +54,14 @@ public static class BuilderExtensions
             options.AddPolicy("Logged",  policy => policy.RequireAuthenticatedUser());
             options.AddPolicy("Pro",  policy => policy.RequireRole("Pro", "Admin"));
             options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+        });
+    }
+
+    public static void AddEmails(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddMailtrapClient(options =>
+        {
+            options.ApiToken = Configuration.Secrets.MailtrapToken;
         });
     }
 }

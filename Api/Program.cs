@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.AddConfiguration();
 builder.AddDatabase();
+builder.AddEmails();
 builder.Services.AddTransient<AuthService>();
 
 builder.AddJwtAuthentication();
