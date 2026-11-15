@@ -24,8 +24,8 @@ public class Service : IService
             .To(user.Email)
             .Subject("Email Verification")
             .Category("Email Verification")
-            .Text($"{user.Name} has been verified");
+            .Text($"This is your verification code: {user.Email.Verification.Code}");
 
-        await _emailClient.Email().Send(request);
+        await _emailClient.Email().Send(request, cancellationToken);
     }
 }
