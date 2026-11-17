@@ -21,6 +21,9 @@ public class Password : ValueObject
         Hash = HashPassword(password);
     }
 
+    public bool Equals(string otherPassword)
+        => Verify(Hash, otherPassword);
+
     private static string GenerateRandomPassword(
         short length = 16,
         bool includeSpecialCharacters = true,

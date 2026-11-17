@@ -31,7 +31,7 @@ public class User : Entity
         var password = new Password(plainTextPassword);
         Password = password;
     }
-    
+
     protected User() { }
     public User(string email, string? password = null)
     {

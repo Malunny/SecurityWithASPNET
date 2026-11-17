@@ -1,4 +1,7 @@
 using Domain.Contexts.Account.Entities.Users;
+using Infraestructure.Contexts.Account.UseCases.Create;
+using Mailtrap;
+using Mailtrap.Emails.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecWithJWTeBearer.DataTransferObjects;
@@ -61,6 +64,14 @@ public static class RoutesMapper
             await db.SaveChangesAsync();
             
             return Results.Ok(authService.GenerateToken(user));
+        });
+
+        app.MapPost("/sendEmail", async ([FromServices] Service service) =>
+        {
+            var testUser = new User("Teste", "jhonnybravocf@gmail.com", "");
+            Console.WriteLine(testUser.Email);
+            await service.SendVerificationEmailAsync(testUser,
+                new CancellationToken());
         });
     }
 

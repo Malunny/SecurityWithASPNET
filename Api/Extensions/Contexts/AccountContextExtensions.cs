@@ -18,7 +18,11 @@ public static class AccountContextExtensions
             Infraestructure.Contexts.Account.UseCases.Create.Repository
         >();
         #endregion
-        
+        #region Auth 
+        builder.Services.AddTransient<
+            Domain.Contexts.Account.UseCases.Authentication.Contracts.IRepository, 
+            Infraestructure.Contexts.Account.UseCases.Authentication.Repository>();
+        #endregion
     }
     
     public static void MapAccountEndpoints(this WebApplication app)
@@ -35,6 +39,20 @@ public static class AccountContextExtensions
             return result.IsSuccess ? Results.Created($"api/v1/users/register", request) 
                 : Results.Json(result, statusCode: result.Status);
         }).AllowAnonymous();
+
+        #endregion
+
+        #region Auth
+
+        app.MapPost("api/v1/users/authenticate",
+            async (Domain.Contexts.Account.UseCases.Authentication.Request request,
+                IRequestHandler<Domain.Contexts.Account.UseCases.Authentication.Request, 
+                Domain.Contexts.Account.UseCases.Authentication.Response> requestHandler) =>
+            {
+                var result = await requestHandler.Handle(request, new CancellationToken());
+
+                return result.IsSuccess ? Results.Ok(result) : Results.Json(result, statusCode: result.Status);
+            });
 
         #endregion
     }
