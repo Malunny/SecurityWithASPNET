@@ -19,4 +19,8 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Contexts\Account\UseCases\VerifyEmail\Contracts\" />
+    </ItemGroup>
+
 </Project>
