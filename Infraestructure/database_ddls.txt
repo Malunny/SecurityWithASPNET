@@ -1,0 +1,28 @@
+-------------------------------------------------------
+--- USER ROLE TABLES
+-------------------------------------------------------
+
+CREATE TABLE users (
+    token                                   TEXT        PRIMARY KEY,
+    name                                    TEXT        NOT NULL,
+    email                                   TEXT        UNIQUE NOT NULL,
+    email_verification_code                 TEXT        NOT NULL,
+    email_verification_expires_at      DATE,
+    email_verification_verified_at     DATE,
+    password_hash                           TEXT        NOT NULL,
+    password_reset_code                     TEXT        NOT NULL
+);
+
+CREATE TABLE roles (
+    token           TEXT        PRIMARY KEY,
+    name            TEXT        NOT NULL UNIQUE
+);
+
+CREATE TABLE user_roles (
+    user_token      TEXT,
+    role_token      TEXT,
+
+    PRIMARY KEY (user_token, role_token),
+    FOREIGN KEY (user_token) REFERENCES users (token),
+    FOREIGN KEY (role_token) REFERENCES roles (token)
+);
