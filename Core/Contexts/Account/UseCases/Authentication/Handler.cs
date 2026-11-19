@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Domain.Contexts.Account.Entities.Users;
 using Domain.Contexts.Account.UseCases.Authentication.Contracts;
 using MediatR;
@@ -63,13 +64,24 @@ public class Handler : IRequestHandler<Request, Response>
         }
 
         #endregion
+        
+        #region 05. Gera a resposta e o Jwt
 
-        #region 05. Retorna os dados
-
+        var claims = new List<Claim>();
+        
+        claims.Add(new Claim("id", user.Token));
+        claims.Add(new Claim(ClaimTypes.Name, user.Email));
+        claims.Add(new Claim(ClaimTypes.Email, user.Email));
+        foreach (var role in user.GetUserRolesNames())
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        
+        var jwtToken = JwtExtensions.GenerateToken(claims);
+        
         try
         {
             var data = new ResponseData
             {
+                Token = jwtToken,
                 Id = user.Token,
                 Name = user.Name,
                 Email = user.Email,

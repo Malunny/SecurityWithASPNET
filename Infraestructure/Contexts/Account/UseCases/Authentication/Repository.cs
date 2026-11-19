@@ -14,6 +14,9 @@ public class Repository : Domain.Contexts.Account.UseCases.Authentication.Contra
     }
     public async Task<User?> GetUserByEmailAsync(string requestEmail, CancellationToken cancellationToken)
     {
-        return await _databaseContext.Users.FirstOrDefaultAsync(user => user.Email.Address == requestEmail, cancellationToken); 
+        return await _databaseContext.Users
+            .AsNoTracking()
+            .Include(user => user.Roles)
+            .FirstOrDefaultAsync(user => user.Email.Address == requestEmail, cancellationToken); 
     }
 }

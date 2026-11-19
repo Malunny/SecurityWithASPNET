@@ -12,6 +12,11 @@ public class User : Entity
     public Password Password { get; private set; }
     public List<Role> Roles { get; set; } = new();
 
+    public IEnumerable<string> GetUserRolesNames()
+    {
+        return Roles.Select(role => role.Name);
+    }
+    
     public void GeneratePassword(string plainTextPassword, string code)
     {
         if (!string.Equals(code.Trim(), Password.ResetCode.Trim(), StringComparison.InvariantCultureIgnoreCase))
